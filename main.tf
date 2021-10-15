@@ -34,8 +34,8 @@ resource "google_service_account" "run" {
 }
 
 resource "google_project_iam_member" "run-iam" {
-  role    = "roles/editor"
-  member  = "serviceAccount:${google_service_account.run.email}"
+  role   = "roles/editor"
+  member = "serviceAccount:${google_service_account.run.email}"
 }
 
 resource "google_cloud_run_service" "run" {
@@ -86,4 +86,27 @@ resource "google_cloud_run_service_iam_member" "member" {
   service  = google_cloud_run_service.run.name
   role     = "roles/run.invoker"
   member   = "allUsers"
+}
+
+resource "null_resource" "image-removal" {
+
+  count = var.remove_image_when_destroy == true ? 1 : 0
+
+  triggers = {
+    docker_image_url          = local.docker_image_url
+    remove_image_when_destroy = var.remove_image_when_destroy
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      gcloud container images list-tags ${self.triggers.docker_image_url} --format=json \
+        | grep "tags" -A1 \
+        | tail -n 1 \
+        | sed -e 's/^[ \t]*//' \
+        | cut -d '"' -f 2 \
+        | xargs -L1 -I'{}' gcloud container images delete ${self.triggers.docker_image_url}:{} --force-delete-tags
+    EOT
+  }
+
 }

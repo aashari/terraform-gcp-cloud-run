@@ -13,6 +13,12 @@ variable "gcp_region" {
   type        = string
 }
 
+variable "remove_image_when_destroy" {
+  description = "When you destroy the stacks, do you want to remove all of the images as well?"
+  type        = bool
+  default     = true
+}
+
 variable "docker_source_path" {
   description = "The path of the service/application source code"
   type        = string
