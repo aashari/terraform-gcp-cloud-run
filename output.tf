@@ -1,14 +1,14 @@
-output "docker-image-url" {
-  value       = local.docker_image_url
-  description = "A generated docker image URL"
-}
-
-output "docker-image-tag" {
-  value       = data.archive_file.init.output_sha
-  description = "A generated docker image tag"
+output "service-name" {
+  value       = google_cloud_run_service.run.name
+  description = "The name of the Cloud Run service"
 }
 
 output "service-endpoint" {
   value       = google_cloud_run_service.run.status[0].url
-  description = "A generated service URL"
+  description = "The URL of the deployed Cloud Run service"
+}
+
+output "service-account" {
+  value       = google_service_account.run.email
+  description = "The email of the service account used by the Cloud Run service"
 }
