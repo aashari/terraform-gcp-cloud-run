@@ -30,10 +30,10 @@ The module creates and manages the following resources:
 
 ## Requirements
 
-| Name      | Version   |
-| --------- | --------- |
-| terraform | >= 1.11.1 |
-| google    | 6.24.0    |
+| Name      | Version            |
+| --------- | ------------------ |
+| terraform | >= 1.11.1          |
+| google    | >= 6.24.0, < 7.0.0 |
 
 ## Usage
 
