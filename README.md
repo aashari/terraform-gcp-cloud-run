@@ -28,6 +28,46 @@ The module creates and manages the following resources:
 - **Cloud Run Service**: The main service running your container
 - **Custom Domain Mapping**: (Optional) Maps a verified domain to your service
 
+```mermaid
+graph TD
+    A[Terraform Module] --> B[Google Service Account]
+    A --> C[IAM Role Binding]
+    A --> D[Cloud Run Service]
+    A --> E[Domain Mapping]
+
+    B -.-> D
+    C -.-> B
+    D --> F[Container]
+    D --> G[Scaling Config]
+    D --> H[Health Checks]
+    E -.-> D
+
+    D --> I[VPC Connector]
+
+    subgraph "Container Configuration"
+        F --> F1[Image]
+        F --> F2[CPU/Memory]
+        F --> F3[Environment Variables]
+        F --> F4[Port]
+    end
+
+    subgraph "Health Checks"
+        H --> H1[Startup Probe]
+        H --> H2[Liveness Probe]
+    end
+
+    subgraph "Scaling Configuration"
+        G --> G1[Min Instances]
+        G --> G2[Max Instances]
+        G --> G3[Concurrency]
+    end
+
+    style D fill:#4285F4,stroke:#333,stroke-width:2px,color:white
+    style B fill:#34A853,stroke:#333,stroke-width:2px,color:white
+    style E fill:#FBBC05,stroke:#333,stroke-width:2px,color:white
+    style I fill:#EA4335,stroke:#333,stroke-width:2px,color:white
+```
+
 ## Requirements
 
 | Name      | Version   |
