@@ -6,6 +6,28 @@
 
 A comprehensive Terraform module for deploying and managing Google Cloud Run services with advanced configuration options.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Requirements](#requirements)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Complete Example](#complete-example-with-all-features)
+  - [Nginx Example](#nginx-example)
+- [Inputs](#inputs)
+  - [Health Check Configuration](#health-check-configuration)
+- [Outputs](#outputs)
+- [Best Practices](#best-practices)
+  - [Resource Allocation](#resource-allocation)
+  - [Health Checks](#health-checks)
+  - [Security](#security)
+  - [Cost Optimization](#cost-optimization)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Overview
 
 This module simplifies the deployment of containerized applications to Google Cloud Run by providing a flexible, reusable Terraform configuration. It handles service account creation, IAM permissions, container configuration, scaling, health checks, VPC connectivity, and custom domain mapping.
@@ -107,7 +129,7 @@ module "cloud_run_service" {
     "run.googleapis.com/cpu-throttling" = "false"
   }
 
-  # Make the service private (only accessible within VPC)
+  # Access control (public or private)
   private_service = false
 }
 ```
@@ -196,6 +218,7 @@ output "nginx_url" {
 
 - Start with the default resource allocation and adjust based on your application's needs
 - For production workloads, consider setting `min_instances` to at least 1 to avoid cold starts
+- Set appropriate CPU and memory values based on your workload requirements
 
 ### Health Checks
 
@@ -209,33 +232,39 @@ output "nginx_url" {
 - Use `private_service = true` for internal services that should not be publicly accessible
 - Use VPC connectors to securely connect to other resources in your VPC
 - Consider using custom service accounts with minimal permissions for production deployments
+- For public services, implement appropriate authentication mechanisms
 
 ### Cost Optimization
 
 - Set `min_instances = 0` for non-critical services to minimize costs
 - Use appropriate `max_instances` to prevent unexpected scaling and costs
 - Monitor your service usage and adjust resource allocation accordingly
+- Consider using Cloud Run's pricing tier that best suits your usage patterns
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Deployment Failures**:
+#### Deployment Failures
 
-   - Check that the container image exists and is accessible
-   - Verify that the container port matches the port your application listens on
-   - Check startup probe configuration if enabled
+- Check that the container image exists and is accessible
+- Verify that the container port matches the port your application listens on
+- Check startup probe configuration if enabled
+- Ensure the service account has the necessary permissions
 
-2. **Service Not Accessible**:
+#### Service Not Accessible
 
-   - Verify that `private_service` is set correctly
-   - Check IAM permissions and service account configuration
-   - For custom domains, ensure the domain is verified in your GCP project
+- Verify that `private_service` is set correctly
+- Check IAM permissions and service account configuration
+- For custom domains, ensure the domain is verified in your GCP project
+- Check VPC configuration if using a VPC connector
 
-3. **Performance Issues**:
-   - Adjust `container_cpu` and `container_memory` based on your application's needs
-   - Configure appropriate `min_instances` and `max_instances` for your expected traffic
-   - Check `container_concurrency` settings for optimal performance
+#### Performance Issues
+
+- Adjust `container_cpu` and `container_memory` based on your application's needs
+- Configure appropriate `min_instances` and `max_instances` for your expected traffic
+- Check `container_concurrency` settings for optimal performance
+- Review Cloud Run logs for any bottlenecks or errors
 
 ## Contributing
 
