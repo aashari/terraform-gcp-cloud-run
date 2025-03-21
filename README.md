@@ -6,28 +6,6 @@
 
 A comprehensive Terraform module for deploying and managing Google Cloud Run services with advanced configuration options.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Requirements](#requirements)
-- [Usage](#usage)
-  - [Basic Usage](#basic-usage)
-  - [Complete Example](#complete-example-with-all-features)
-  - [Nginx Example](#nginx-example)
-- [Inputs](#inputs)
-  - [Health Check Configuration](#health-check-configuration)
-- [Outputs](#outputs)
-- [Best Practices](#best-practices)
-  - [Resource Allocation](#resource-allocation)
-  - [Health Checks](#health-checks)
-  - [Security](#security)
-  - [Cost Optimization](#cost-optimization)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Overview
 
 This module simplifies the deployment of containerized applications to Google Cloud Run by providing a flexible, reusable Terraform configuration. It handles service account creation, IAM permissions, container configuration, scaling, health checks, VPC connectivity, and custom domain mapping.
